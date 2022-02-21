@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+#wrap {
+	width: 800px;
+}
+
+header {
+	height: 50px;
+	background-color:#99FFFF;
+}
+
+#icon:hover {
+	text-decoration:none;
+}
+
+.sign-up-box {
+	background-color: #99CCCC;
+	width:600px;
+}
