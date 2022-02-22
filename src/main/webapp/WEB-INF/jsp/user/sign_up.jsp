@@ -101,17 +101,17 @@
 			
 			let password = $('#password').val();
 			let checkPwd = $('#checkPwd').val();
-			let reg = new RegExp("^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$");
+			let reg = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/);
+
 			if (password == '' || checkPwd == '') {
 				alert("비밀번호를 입력해주세요.");
 				return false;
 			}
 			
-			/* console.log(password);
 			if (reg.test(password) == false) {
 				alert("비밀번호를 다시 설정해주세요.");
 				return false;
-			} */
+			} 
 			
 			if (password != checkPwd) {
 				alert("비밀번호가 일치하지 않습니다.");

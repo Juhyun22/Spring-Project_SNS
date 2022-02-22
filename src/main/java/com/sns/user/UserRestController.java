@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.sns.common.EncryptUtils;
 import com.sns.user.bo.UserBO;
@@ -36,20 +35,23 @@ public class UserRestController {
 			@RequestParam("loginId") String loginId,
 			@RequestParam("password") String password,
 			@RequestParam("name") String name,
-			@RequestParam("email") String email,
-			@RequestParam("profileImg") MultipartFile profileImg) throws Exception {
+			@RequestParam("email") String email) throws Exception{
 		
 		// 비밀번호 암호화 
 		String encryptPassword = EncryptUtils.Hashing(password, loginId);
 		
+		// DB insert
+		int row = userBO.insertUser(loginId, encryptPassword, name, email);
 		
 		Map<String, Object> result = new HashMap<>();
-				
+		result.put("result", "success");
+		
+		if (row < 1) {
+			result.put("result", "error");
+		}
 		
 		return result;
 	}
-	
-	
 	
 }
 

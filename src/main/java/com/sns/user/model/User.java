@@ -2,15 +2,13 @@ package com.sns.user.model;
 
 import java.util.Date;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class User {
 	private int id;
 	private String loginId;
 	private String password;
 	private String name;
 	private String email;
-	private MultipartFile profileImg;
+	// private String profileImg;
 	private Date createdAt;
 	private Date updatedAt;
 
@@ -54,13 +52,13 @@ public class User {
 		this.email = email;
 	}
 
-	public MultipartFile getProfileImg() {
-		return profileImg;
-	}
-
-	public void setProfileImg(MultipartFile profileImg) {
-		this.profileImg = profileImg;
-	}
+//	public String getProfileImg() {
+//		return profileImg;
+//	}
+//
+//	public void setProfileImg(String profileImg) {
+//		this.profileImg = profileImg;
+//	}
 
 	public Date getCreatedAt() {
 		return createdAt;
