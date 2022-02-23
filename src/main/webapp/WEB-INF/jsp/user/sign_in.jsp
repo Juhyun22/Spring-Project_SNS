@@ -56,7 +56,7 @@
 			$.post(url, params)
 			.done(function(data) { // 성공하면,
 				if (data.result == 'success') {
-					location.href = "/post/post_list_view";
+					location.href = "/timeline/timeline_list_view";
 				} else {
 					alert(data.errorMessage);
 				}

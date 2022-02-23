@@ -7,10 +7,13 @@
 			<h2>Gramgram</h2>
 		</a>
 	</div>
-	<div class="d-flex align-items-end">
+	<div class="d-flex justify-content-end w-100 mr-4">
 		<c:if test="${not empty userName}">
 			<div>${userName}님 안녕하세요.</div>
-			<a href="/user/sign_out">로그아웃</a>
+			<a href="/user/sign_out" class="text-info">로그아웃</a>
+		</c:if>
+		<c:if test="${empty userName}">
+			<a href="/user/sign_in_view" class="text-info">로그인</a>
 		</c:if>
 	</div>
 </div>

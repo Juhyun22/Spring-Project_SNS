@@ -30,3 +30,19 @@ header {
 .btnCss {
 	color: #fff;
 }
+
+#file {
+	display:none;
+}
+
+.userId-part {
+	background-color:#99FFFF;
+}
+
+.fa,.fab,.fad,.fal,.far,.fas {
+	font-weight: 900 !important;
+}
+	
+.comment-icon-part {
+	background-color:#99FFFF;
+}
