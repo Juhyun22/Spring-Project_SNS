@@ -13,7 +13,20 @@ header {
 	text-decoration:none;
 }
 
+.contents {
+	
+}
+
 .sign-up-box {
-	background-color: #99CCCC;
+	background-color: #CFFCF7;
 	width:600px;
+}
+
+.login-part {
+	background-color: #CFFCF7;
+	width:500px;
+}
+
+.btnCss {
+	color: #fff;
 }
