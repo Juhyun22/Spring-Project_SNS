@@ -6,11 +6,11 @@
 
 header {
 	height: 50px;
-	background-color:#99FFFF;
+	background-color: #99FFFF;
 }
 
 #icon:hover {
-	text-decoration:none;
+	text-decoration: none;
 }
 
 .contents {
@@ -19,12 +19,12 @@ header {
 
 .sign-up-box {
 	background-color: #CFFCF7;
-	width:600px;
+	width: 600px;
 }
 
 .login-part {
 	background-color: #CFFCF7;
-	width:500px;
+	width: 500px;
 }
 
 .btnCss {
@@ -32,17 +32,31 @@ header {
 }
 
 #file {
-	display:none;
+	display: none;
 }
 
 .userId-part {
-	background-color:#99FFFF;
+	background-color: #99FFFF;
 }
 
-.fa,.fab,.fad,.fal,.far,.fas {
-	font-weight: 900 !important;
-}
-	
 .comment-icon-part {
-	background-color:#99FFFF;
+	background-color: #99FFFF;
+}
+
+#deletePostBtn {
+	background: inherit;
+	border: none;
+	box-shadow: none;
+	border-radius: 0;
+	padding: 0;
+	overflow: visible;
+	cursor: pointer
+}
+
+#fileDownloadIcon {
+	font-size: 20px;
+}
+
+#imageIcon {
+	font-size: 100px;
 }

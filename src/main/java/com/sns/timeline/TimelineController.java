@@ -25,6 +25,11 @@ public class TimelineController {
 	@RequestMapping("/timeline_list_view")
 	public String timelineListView(Model model) {
 		
+		// 하나의 카드 => ContentView 객체 (View용 객체) 
+		// List<ContentView> contentList = new ArrayList<>();
+		
+		
+		// post 내용 
 		List<Post> postList = postBO.getPostList();
 		
 		model.addAttribute("viewName", "timeline/timeline_list");

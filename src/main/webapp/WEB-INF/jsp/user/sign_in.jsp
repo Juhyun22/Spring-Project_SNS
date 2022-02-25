@@ -10,13 +10,13 @@
 				<div class="mt-4 pt-3 pb-3 w-100">
 					<div class="input-group d-flex justify-content-center">
 						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="fas fa-user"></i></span>
+							<span class="input-group-text"><i class="bi bi-person-fill"></i></span>
 						</div>
 						<input type="text" class="form-control col-6" id="loginId" name="loginId">
 					</div>
 					<div class="input-group mt-1 d-flex justify-content-center">
 						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="fas fa-lock"></i></span>
+							<span class="input-group-text"><i class="bi bi-key-fill"></i></span>
 						</div>
 						<input type="password" class="form-control col-6" id="password" name="password">
 					</div>

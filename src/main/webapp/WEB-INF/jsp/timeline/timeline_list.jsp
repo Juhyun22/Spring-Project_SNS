@@ -4,7 +4,6 @@
 
 <div class="d-flex justify-content-center">
 	<div class="w-50">
-	
 		<%-- post-part 로그인이 된 경우에만 보이게! --%>
 		<c:if test="${not empty userId}">
 		<div class="timeline-posting-part bg-muted form-group">
@@ -12,7 +11,10 @@
 				<textarea class="form-control" id="postContent" name="postContent" placeholder="내용을 입력해주세요."></textarea>
 				
 				<div class="d-flex justify-content-between mt-1">
-					<label for="file"><i class="fas fa-file fa-1g"></i><span id="fileName"></span></label>
+					<label for="file">
+						<i class="bi bi-file-earmark-arrow-down" id="fileDownloadIcon"></i>
+						<span id="fileName"></span>
+					</label>
 					<input type="file" id="file" name="file" accept=".jpg,.png,.jpeg,.gif">
 					
 					<button type="button" class="btn btnCss btn-info" id="uploadBtn" name="uploadBtn">업로드</button>
@@ -22,33 +24,42 @@
 		</c:if>
 		
 		<%-- timelinepart --%>
-		<div class="timeline-posts-part mt-2">
 		<c:forEach items="${postList}" var="post">
+		<div class="border my-3">
+		<div class="timeline-posts-part">
 			<div class="post-part">
 				<div class="userId-part w-100 d-flex justify-content-between px-2">
-					<div class="text-info font-weight-bold">${post.id} borabora</div>
-					<label for="deletePost" class="delete-icon"><i id="deletePost" class="fa fa-ellipsis-h deletePost"></i></label>
+					<div class="text-info font-weight-bold">borabora</div>
+					<button type="button" id="deletePostBtn" class="delete-icon">
+						<i id="deletePost" class="fa fa-ellipsis-h deletePost"></i>
+					</button>
 				</div>
 				<div class="post-image-part">
 					<div class="mt-1">
 						<div class="put-image">
-							<div class="border text-center">No Imges</div>
+							<div class="text-center border">
+							<c:if test="${not empty post.imagePath}">
+								<img src="${post.imagePath}" width="380px" alt="게시물이미지">
+							</c:if>
+							<c:if test="${empty post.imagePath}">
+								<i class="bi bi-image" id="imageIcon"></i>
+								<div>No Image</div>
+							</c:if>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</c:forEach>
-		
 				<%-- 좋아요 part  --%>
 				<div class="like-part">
 					<div class="mt-1 mb-0">
-						<label for="like"><i id="like" class="fa fa-heart like"></i>  좋아요</label>
+						<label for="like"><i class="bi bi-heart"></i>  좋아요</label>
 						<span class="">22개</span>
 					</div>
 				</div>
 				<div class="post-content-part">
 					<span class="userId font-weight-bold">borabora</span>
-					<span class="comment">testing</span>							
+					<span class="comment">${post.id}</span>							
 				</div>
 			</div>
 			
@@ -59,16 +70,22 @@
 				</div>
 				<div class="my-1">
 					<span class="font-weight-bold">아이디1</span>
-					<span>댓글testtt</span>
+					<span class="ml-2">댓글testtt</span>
 				</div>
 				<%-- 댓글 작성 part --%>
+				<%-- 로그인이 된 상태에서만 쓸 수 있다. --%>
+				<c:if test="${not empty userId}">
 				<div class="d-flex">
-					<input type="text" id="commentText" name="commentText" class="form-control" placeholder="댓글 내용을 입력해주세요.">
-					<button type="button" class="btn btn-info btnCss ml-3" id="commentBtn" name="commentBtn">게시</button>
+					<input type="text" id="commentText${post.id}" name="commentText" class="form-control" placeholder="댓글 내용을 입력해주세요.">
+					<button type="button" class="commentBtn btn btn-info btnCss ml-3" data-post-id="${post.id}" id="commentBtn" name="commentBtn">게시</button>
 				</div>
+				</c:if>
 			</div>
 		</div>
+		</c:forEach>
+		</div>
 	</div>
+
 
 
 <script>
@@ -141,6 +158,18 @@
 				}
 			});
 		});
+		
+		// 댓글 쓰기 - 게시 버튼 클릭 
+		$("#commentBtn").on('click', function(e) {
+			let postId = $(this).data('post-id');  // data-post-id .. 무조건 -으로! : 규칙임!!
+			
+			let commentContent = $('#commentText' + postId).val().trim();
+			alert(commentContent);
+			
+		});
+		
+		
+		
 		
 		// 댓글 게시 -> 로그인 되었을때 만 
 		
