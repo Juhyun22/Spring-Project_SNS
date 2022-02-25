@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.sns.post.bo.PostBO;
 import com.sns.post.model.Post;
 
+@RequestMapping("/post")
 @RestController
 public class PostRestController {
 	
@@ -34,6 +36,7 @@ public class PostRestController {
 		return postList;
 	}
 	
+	@PostMapping("/create")
 	public Map<String, Object> create(
 			@RequestParam(value="file", required=false) MultipartFile file,
 			@RequestParam("content") String content,
@@ -48,8 +51,10 @@ public class PostRestController {
 		String userLoginId = (String)session.getAttribute("userLoginId");
 		// 로그인이 되어 있지 않은 경우 post하는 box가 보이지 않게 timeline_list.jsp에 함.
 		
+		// userId, userLoginId, imagePath, content => insert to BO
+		postBO.addPost(userId, userLoginId, file, content);
 		
-		// userId, imagePath, content to DB
+		return result;
 	}
 }
 

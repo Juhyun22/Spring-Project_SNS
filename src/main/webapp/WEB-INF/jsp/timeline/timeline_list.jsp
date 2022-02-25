@@ -117,7 +117,7 @@
 			
 			// form 태그를 javascript에서 만든다. 
 			// post, comment 두 부분으로 form 태그 id만 다르게 해서 만들어줘도 될듯..!
-			let formData = new formData();
+			let formData = new FormData();
 			formData.append("content", postContent);
 			formData.append("file", $('#file')[0].files[0]); // $('#file')[0]은 첫번째 input file 태그를 의미, files[0]은 업로드 된 첫번쨰 파일을 의미 
 			

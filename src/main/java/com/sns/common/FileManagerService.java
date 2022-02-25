@@ -1,5 +1,11 @@
 package com.sns.common;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,6 +20,31 @@ public class FileManagerService {
 		String directoryName = userLoginId + "_" + System.currentTimeMillis() + "/";
 		String filePath = FILE_UPLOAD_PATH + directoryName;
 				
-				
+		// 디렉토리 만들기 
+		File directory = new File(filePath);
+		if (directory.mkdir() == false) {  // 파일 만들기에 실패했으면, 
+			return null;  // null 리턴 
+		}
+		
+		// upload file : byte단위로 업로드한다. 
+		try {
+			byte[] bytes = file.getBytes();
+			Path path = Paths.get(filePath + file.getOriginalFilename());  // getOriginalFilename()은 input에 올릴 파일 명이다.(한글 X) 
+			Files.write(path, bytes);
+			
+			// 이미지 url을 리턴한다. (WebMvcConfing에서 매핑한 이미지 path) 
+			// ex) http://localhost/images/image파일 이름/이미지 이름.png
+			return "/images/" + directoryName + file.getOriginalFilename();
+			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 }
+
+
+
+
