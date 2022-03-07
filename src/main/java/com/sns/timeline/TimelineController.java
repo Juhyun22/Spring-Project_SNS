@@ -2,20 +2,23 @@ package com.sns.timeline;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.sns.post.bo.PostBO;
-import com.sns.post.model.Post;
+import com.sns.timeline.bo.ContentBO;
+import com.sns.timeline.model.ContentView;
 
 @RequestMapping("/timeline")
 @Controller
 public class TimelineController {
 	
 	@Autowired
-	private PostBO postBO; 
+	private	ContentBO contentBO; 
 
 	/**
 	 * 타임라인 view
@@ -23,17 +26,25 @@ public class TimelineController {
 	 * @return
 	 */
 	@RequestMapping("/timeline_list_view")
-	public String timelineListView(Model model) {
+	public String timelineListView(
+			Model model, 
+			HttpServletRequest request) {
+		
+		// 글쓴이의 정보를 가져오기 위해 세션에서 userId를 꺼낸다.
+		HttpSession session = request.getSession();
+		// 로그인 되어 있든 되어있지 않든 허용 - null허용하기 위해 Integer로 받음 
+		Integer userId = (Integer)session.getAttribute("userId");
+		if (userId == null) { // 로그인이 되지 않았을 때, 
+			model.addAttribute("viewName", "user/sign_in");
+			return "template/layout";
+		}
+		
 		
 		// 하나의 카드 => ContentView 객체 (View용 객체) 
-		// List<ContentView> contentList = new ArrayList<>();
+		List<ContentView> contentList = contentBO.generateContentViewList(userId);
 		
-		
-		// post 내용 
-		List<Post> postList = postBO.getPostList();
-		
+		model.addAttribute("contentList", contentList);
 		model.addAttribute("viewName", "timeline/timeline_list");
-		model.addAttribute("postList", postList);
 		
 		return "template/layout";
 	}

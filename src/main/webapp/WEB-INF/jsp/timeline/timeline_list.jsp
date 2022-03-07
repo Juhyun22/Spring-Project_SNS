@@ -24,12 +24,12 @@
 		</c:if>
 		
 		<%-- timelinepart --%>
-		<c:forEach items="${postList}" var="post">
+		<c:forEach items="${contentList}" var="content">
 		<div class="border my-3">
 		<div class="timeline-posts-part">
 			<div class="post-part">
 				<div class="userId-part w-100 d-flex justify-content-between px-2">
-					<div class="text-info font-weight-bold">borabora</div>
+					<div class="text-info font-weight-bold">${content.user.loginId}</div>
 					<button type="button" id="deletePostBtn" class="delete-icon">
 						<i id="deletePost" class="fa fa-ellipsis-h deletePost"></i>
 					</button>
@@ -38,10 +38,10 @@
 					<div class="mt-1">
 						<div class="put-image">
 							<div class="text-center border">
-							<c:if test="${not empty post.imagePath}">
-								<img src="${post.imagePath}" width="380px" alt="게시물이미지">
+							<c:if test="${not empty content.post.imagePath}">
+								<img src="${content.post.imagePath}" width="380px" alt="게시물이미지">
 							</c:if>
-							<c:if test="${empty post.imagePath}">
+							<c:if test="${empty content.post.imagePath}">
 								<i class="bi bi-image" id="imageIcon"></i>
 								<div>No Image</div>
 							</c:if>
@@ -58,8 +58,8 @@
 					</div>
 				</div>
 				<div class="post-content-part">
-					<span class="userId font-weight-bold">borabora</span>
-					<span class="comment">${post.id}</span>							
+					<span class="userId font-weight-bold">${content.user.loginId}</span>
+					<span class="comment">${content.post.content}</span>							
 				</div>
 			</div>
 			
@@ -68,16 +68,22 @@
 				<div class="comment-icon-part px-2">
 					<div class="text-info font-weight-bold">댓글</div>
 				</div>
+				<%-- 글에 대한 댓글 --%>
+				<c:if test="${not empty content.commentList}">
+				<c:forEach items="${content.commentList}" var="commentView">
 				<div class="my-1">
-					<span class="font-weight-bold">아이디1</span>
-					<span class="ml-2">댓글testtt</span>
+					<span class="font-weight-bold">${commentView.user.name}</span>
+					<span class="ml-2">${commentView.comment.content}</span>
 				</div>
+				</c:forEach>
+				</c:if>
+				
 				<%-- 댓글 작성 part --%>
 				<%-- 로그인이 된 상태에서만 쓸 수 있다. --%>
 				<c:if test="${not empty userId}">
-				<div class="d-flex">
-					<input type="text" id="commentText${post.id}" name="commentText" class="form-control" placeholder="댓글 내용을 입력해주세요.">
-					<button type="button" class="commentBtn btn btn-info btnCss ml-3" data-post-id="${post.id}" id="commentBtn" name="commentBtn">게시</button>
+				<div class="d-flex mt-2">
+					<input type="text" id="commentText${content.post.id}" name="commentText" class="form-control" placeholder="댓글 내용을 입력해주세요.">
+					<button type="button" class="commentBtn btn btn-info btnCss ml-3" data-post-id="${content.post.id}" id="commentBtn" name="commentBtn">게시</button>
 				</div>
 				</c:if>
 			</div>
