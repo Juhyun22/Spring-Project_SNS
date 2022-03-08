@@ -69,12 +69,20 @@ public class PostRestController {
 		return result;
 	}
 	
+	/**
+	 * 글 삭제 
+	 * @param postId
+	 * @param request
+	 * @return
+	 */
 	@DeleteMapping("/delete")
 	public Map<String, Object> delete(
 			@RequestParam("postId") int postId,
 			HttpServletRequest request) {
 		
 		Map<String, Object> result = new HashMap<>();
+		result.put("result", "success");
+		result.put("successMessage", "삭제 성공!");
 		
 		HttpSession session = request.getSession();
 		Integer userId = (Integer) session.getAttribute("userId");
@@ -85,9 +93,8 @@ public class PostRestController {
 			return result;
 		}
 		
-		// postBO.
-		result.put("result", "success");
-		
+		postBO.deletePostByPostIdAndUserId(postId, userId);
+
 		return result;
 	}
 }

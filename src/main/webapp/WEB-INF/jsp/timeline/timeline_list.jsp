@@ -223,6 +223,22 @@
 			let postId = $('#moreModal').data('post-id');  // postId 세팅 
 
 			// 삭제 AJAX 
+			$.ajax({
+				type: "DELETE"
+				, url: "/post/delete"
+				, data: {"postId":postId}
+				, success: function(data) {
+					if (data.result == "success") {
+						alert(data.successMessage);
+						location.reload();
+					} else {
+						alert(data.errorMessage);
+					}
+				}
+				, error: function(e) {
+					alert("게시물 삭제에 실패했습니다. 관리자에게 문의하여주세요.");
+				}
+			});
 		});
 		
 		//////////////////////////////////////////////////////////////////////////////////////////
