@@ -14,17 +14,17 @@ import com.sns.user.model.User;
 
 @Service
 public class CommentBO {
-	
+
 	@Autowired
 	private CommentDAO commentDAO;
-	
+
 	@Autowired
 	private UserBO userBO;
-	
+
 	public void createComment(int userId, int postId, String content) {
 		commentDAO.createComment(userId, postId, content);
 	}
-	
+
 	public List<Comment> getCommentListByPostId(int postId) {
 		return commentDAO.selectCommentListByPostId(postId);
 	}
@@ -32,21 +32,25 @@ public class CommentBO {
 	public List<CommentView> generateCommentViewListByPostId(int postId) {
 		List<CommentView> resultList = new ArrayList<>();
 		List<Comment> commentList = getCommentListByPostId(postId);
-		
-		for (Comment comment : commentList) {  // Comment -> CommentView
+
+		for (Comment comment : commentList) { // Comment -> CommentView
 			CommentView commentView = new CommentView();
-			
-			// 댓글 
+
+			// 댓글
 			commentView.setComment(comment);
-			
-			// 댓글 글쓴이 
+
+			// 댓글 글쓴이
 			User user = userBO.getUserById(comment.getUserId());
 			commentView.setUser(user);
-			
+
 			resultList.add(commentView);
 		}
-		
+
 		return resultList;
 	}
-	
+
+	public void deleteCommentByUserIdAndCommentId(int userId, int commentId) {
+		commentDAO.deleteCommentByUserIdAndCommentId(userId, commentId);
+	}
+
 }

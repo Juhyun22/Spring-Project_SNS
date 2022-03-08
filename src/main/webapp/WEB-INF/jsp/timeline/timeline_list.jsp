@@ -78,6 +78,12 @@
 				<div class="my-1">
 					<span class="font-weight-bold">${commentView.user.loginId}</span>
 					<span class="ml-2">${commentView.comment.content}</span>
+					<%-- 댓글쓴이면 삭제 가능 --%>
+					<c:if test="${commentView.user.loginId eq userLoginId}">
+						<label for="deleteComment">
+							<i id="deleteComment" class="deleteComment bi bi-x" data-comment-id="${commentView.comment.id}"></i>
+						</label>
+					</c:if>
 				</div>
 				</c:forEach>
 				</c:if>
@@ -167,7 +173,7 @@
 			
 			// ajax 통신으로 form에 있는 데이터를 전송한다. 
 			$.ajax({
-				type: "post"
+				type: "POST"
 				, url: "/post/create"
 				, data: formData
 				, enctype: "multipart/form-data"  // 파일 업로드를 위한 필수 설정 
@@ -221,7 +227,7 @@
 			$.ajax({
 				type: "POST"
 				, url: "/comment/create"
-				, data: {"postId" : postId, "content":commentContent}
+				, data: {"postId":postId, "content":commentContent}
 				, success: function(data) {
 					if (data.result == "success") {
 						alert("댓글 작성 성공!");
@@ -238,6 +244,27 @@
   
 		
 		// 댓글 삭제 -> 로그인 되었을 때, 로그인 된 본인만 볼 수 있게 
+		$('.deleteComment').on('click', function(e) {
+			let commentId = $(this).data('comment-id');
+			
+			// AJAX
+			$.ajax({
+				type: "DELETE"
+				, url: "/comment/delete"
+				, data: {"commentId":commentId}
+				, success: function(data) {
+					if (data.result == "success") {
+						alert("댓글 삭제 완료!");
+						location.reload();
+					} else {
+						alert(data.errorMessage);
+					}
+				}
+				, error: function(e) {
+					alert("댓글 삭제에 실패하였습니다. 관리자에게 문의해주세요.");
+				}
+			});
+		});
 		
 	});
 	
