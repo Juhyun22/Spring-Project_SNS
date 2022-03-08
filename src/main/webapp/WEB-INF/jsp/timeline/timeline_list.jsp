@@ -76,7 +76,7 @@
 				<c:if test="${not empty content.commentList}">
 				<c:forEach items="${content.commentList}" var="commentView">
 				<div class="my-1">
-					<span class="font-weight-bold">${commentView.user.name}</span>
+					<span class="font-weight-bold">${commentView.user.loginId}</span>
 					<span class="ml-2">${commentView.comment.content}</span>
 				</div>
 				</c:forEach>
@@ -87,7 +87,7 @@
 				<c:if test="${not empty userId}">
 				<div class="d-flex mt-2">
 					<input type="text" id="commentText${content.post.id}" name="commentText" class="form-control" placeholder="댓글 내용을 입력해주세요.">
-					<button type="button" class="commentBtn btn btn-info btnCss ml-3" data-post-id="${content.post.id}" id="commentBtn" name="commentBtn">게시</button>
+					<button type="button" id="commentBtn" class="commentBtn btn btn-info btnCss ml-3" data-post-id="${content.post.id}" name="commentBtn">게시</button>
 				</div>
 				</c:if>
 			</div>
@@ -203,12 +203,12 @@
 			
 			let postId = $('#moreModal').data('post-id');  // postId 세팅 
 
-			
+			// 삭제 AJAX 
 		});
 		
 		
 		// 댓글 쓰기 - 게시 버튼 클릭 
-		$("#commentBtn").on('click', function(e) {
+		$(".commentBtn").on('click', function(e) {
 			let postId = $(this).data('post-id');  // data-post-id .. 무조건 -으로! : 규칙임!!
 			
 			let commentContent = $('#commentText' + postId).val().trim();
@@ -235,11 +235,7 @@
 				}
 			});
 		});
-		
-		
-		
-		
-		// 댓글 게시 -> 로그인 되어 있을때만  
+  
 		
 		// 댓글 삭제 -> 로그인 되었을 때, 로그인 된 본인만 볼 수 있게 
 		
