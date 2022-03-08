@@ -30,9 +30,13 @@
 			<div class="post-part">
 				<div class="userId-part w-100 d-flex justify-content-between px-2">
 					<div class="text-info font-weight-bold">${content.user.loginId}</div>
-					<button type="button" id="deletePostBtn" class="delete-icon">
-						<i id="deletePost" class="fa fa-ellipsis-h deletePost"></i>
-					</button>
+					
+					<%-- 글 쓴 사용자와 로그인 사용자가 일치할 때만 삭제 가능 --%>
+					<c:if test="${userLoginId eq content.user.loginId}">
+					<a href="#" data-toggle="modal" data-target="#moreModal" class="more-btn text-dark" data-post-id="${content.post.id}">
+						<i id="deletePost" class="bi bi-three-dots deletePost"></i>
+					</a>
+					</c:if>
 				</div>
 				<div class="post-image-part">
 					<div class="mt-1">
@@ -89,9 +93,26 @@
 			</div>
 		</div>
 		</c:forEach>
-		</div>
 	</div>
+</div>
 
+<!-- Modal -->
+<div class="modal fade" id="moreModal">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+ 		<%-- 모달 창 안에 내용 넣기 --%>
+ 		<div>
+ 			<div class="my-3 text-center">
+ 				<a href="#" class="del-post d-block text-dark">삭제</a>
+ 			</div>
+ 			<div class="border-top text-center">
+ 				<%-- data-dismiss: 모달창 닫힘 --%>
+ 				<a href="#" class="cancle d-block text-dark" data-dismiss="modal">취소</a>
+ 			</div>
+ 		</div>
+    </div>
+  </div>
+</div>
 
 
 <script>
@@ -154,7 +175,8 @@
 				, contentType: false  // 파일 업로드를 위한 필수 설정 
 				, success: function(data) {
 					if (data.result == 'success') {
-						
+						alert("게시물 업로드 성공!");
+						location.reload();
 					} else {
 						alert("게시물 업로드에 실패하였습니다. 다시 시도해 주세요.");
 					}
@@ -165,21 +187,62 @@
 			});
 		});
 		
+		// 카드에서 더보기(...) 클릭 시 모달에 삭제될 글 번호를 넣어준다.
+		$('.more-btn').on('click', function(e) {
+			e.preventDefault();
+			
+			let postId = $(this).data('post-id');
+			
+			$('#moreModal').data('post-id', postId);  // data-post-id처럼 값 넣어주기 
+		});
+		
+		
+		// 게시물 삭제 - 모달창 안에 있는 삭제하기 버튼 클릭 
+		$('#moreModal .del-post').on('click', function(e) {
+			e.preventDefault();
+			
+			let postId = $('#moreModal').data('post-id');  // postId 세팅 
+
+			
+		});
+		
+		
 		// 댓글 쓰기 - 게시 버튼 클릭 
 		$("#commentBtn").on('click', function(e) {
 			let postId = $(this).data('post-id');  // data-post-id .. 무조건 -으로! : 규칙임!!
 			
 			let commentContent = $('#commentText' + postId).val().trim();
-			alert(commentContent);
+			if (commentContent == '') {
+				alert("댓글을 입력해주세요.");
+				return;
+			}
 			
+			// ajax
+			$.ajax({
+				type: "POST"
+				, url: "/comment/create"
+				, data: {"postId" : postId, "content":commentContent}
+				, success: function(data) {
+					if (data.result == "success") {
+						alert("댓글 작성 성공!");
+						location.reload();
+					} else {
+						alert(data.errorMessage);
+					}
+				}
+				, error: function(e) {
+					alert("댓글 작성에 실패하였습니다. 관리자에게 문의하여주세요.");
+				}
+			});
 		});
 		
 		
 		
 		
-		// 댓글 게시 -> 로그인 되었을때 만 
+		// 댓글 게시 -> 로그인 되어 있을때만  
 		
 		// 댓글 삭제 -> 로그인 되었을 때, 로그인 된 본인만 볼 수 있게 
+		
 	});
 	
 </script>

@@ -16,7 +16,7 @@ public class CommentRestController {
 	@Autowired
 	private CommentBO commentBO;
 	
-	@RequestMapping("")
+	@RequestMapping("/create")
 	public Map<String, Object> writeComment() {
 		Map<String, Object> result = new HashMap<>();
 		
