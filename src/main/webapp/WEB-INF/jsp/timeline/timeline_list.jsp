@@ -57,10 +57,21 @@
 				<%-- 좋아요 part  --%>
 				<div class="like-part">
 					<div class="mt-1 mb-0">
-						<label for="like"><i class="bi bi-heart"></i>  좋아요</label>
-						<span class="">22개</span>
+						<a href="#" id="likeBtn" class="likeBtn text-dark" data-post-id="${content.post.id}">
+							<%-- 안 좋아요 --%>
+							<c:if test="${content.filledLike eq false}">
+								<i class="bi bi-heart"></i>
+							</c:if>
+							<%-- 좋아요 --%>
+							<c:if test="${content.filledLike eq true}">
+								<i class="bi bi-heart-fill"></i>
+							</c:if>
+						</a>
+						<span class="likeCount-part">좋아요 ${content.likeCount}개</span>
 					</div>
 				</div>
+				
+				<%-- 게시글 내용 --%>
 				<div class="post-content-part">
 					<span class="userId font-weight-bold">${content.user.loginId}</span>
 					<span class="comment">${content.post.content}</span>							
@@ -72,12 +83,14 @@
 				<div class="comment-icon-part px-2">
 					<div class="text-info font-weight-bold">댓글</div>
 				</div>
+				
 				<%-- 글에 대한 댓글 --%>
 				<c:if test="${not empty content.commentList}">
 				<c:forEach items="${content.commentList}" var="commentView">
 				<div class="my-1">
 					<span class="font-weight-bold">${commentView.user.loginId}</span>
 					<span class="ml-2">${commentView.comment.content}</span>
+					
 					<%-- 댓글쓴이면 삭제 가능 --%>
 					<c:if test="${commentView.user.loginId eq userLoginId}">
 						<label for="deleteComment">
@@ -212,6 +225,33 @@
 			// 삭제 AJAX 
 		});
 		
+		//////////////////////////////////////////////////////////////////////////////////////////
+		
+		// 좋아요 
+		$('.likeBtn').on('click', function(e) {
+			e.preventDefault();  // <a>기능 중단 
+			
+			let postId = $(this).data('post-id');
+			
+			// alert(postId);
+			
+			$.ajax({
+				url: "/like/" + postId
+				, success: function(data) {
+					if (data.result == "success") {
+						location.reload();
+					} else {
+						alert(result.errorMessage);
+					}
+				}
+				, error : function(e) {
+					alert("좋아요 등록에 실패하였습니다. 다시 시도해주세요.");
+				}
+			});
+		});
+		
+		
+		///////////////////////////////////////////////////////////////////////////////////////////
 		
 		// 댓글 쓰기 - 게시 버튼 클릭 
 		$(".commentBtn").on('click', function(e) {

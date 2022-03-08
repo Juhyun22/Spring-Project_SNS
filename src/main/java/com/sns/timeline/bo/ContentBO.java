@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.sns.comment.bo.CommentBO;
 import com.sns.comment.model.CommentView;
+import com.sns.like.bo.LikeBO;
 import com.sns.post.bo.PostBO;
 import com.sns.post.model.Post;
 import com.sns.timeline.model.ContentView;
@@ -25,10 +26,10 @@ public class ContentBO {
 
 	@Autowired
 	private CommentBO commentBO;
-//	
-//	@Autowired
-//	private LikeBO likeBO;
-//	
+	
+	@Autowired
+	private LikeBO likeBO;
+	
 	// 로그인 되지 않아도 타임라인은 볼 수 있으므로 userId Integer 
 	// 객체 가공하는것 해보기 
 	public List<ContentView> generateContentViewList(Integer userId) {
@@ -39,6 +40,7 @@ public class ContentBO {
 		List<Post> postList = postBO.getPostList();
 		for (Post post : postList) {
 			ContentView content = new ContentView();
+			
 			// 글 정보 
 			content.setPost(post);
 			
@@ -52,8 +54,10 @@ public class ContentBO {
 			content.setCommentList(commentList);
 			
 			// 좋아요 개수 세팅 
+			content.setLikeCount(likeBO.getLikeCountByPostId(post.getId()));
 			
 			// 로그인 된 사용자의 좋아요 여부 세팅 
+			content.setFilledLike(likeBO.existLike(post.getId(), userId));
 			
 			contentViewList.add(content);
 		}
