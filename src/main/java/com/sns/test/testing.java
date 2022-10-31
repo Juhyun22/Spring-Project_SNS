@@ -12,4 +12,9 @@ public class testing {
 	public String test() {
 		return "Helloooo";
 	}
+	
+	@RequestMapping("jsptest")
+	public String jsptest() {
+		return "test/testing";
+	}
 }

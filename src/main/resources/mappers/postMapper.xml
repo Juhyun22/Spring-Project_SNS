@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.sns.post.dao.PostDAO">
+	<select id="selectPostList" resultType="com.sns.post.model.Post">
+		SELECT
+			`id`
+			, `userId`
+			, `imagePath`
+			, `content`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`post`
+	</select>
+	
+	<select id="selectPostByPostIdAndUserId" parameterType="map" resultType="com.sns.post.model.Post">
+		SELECT
+			`id`
+			, `userId`
+			, `imagePath`
+			, `content`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`post`
+		WHERE
+			`id` = #{postId}
+			AND `userId` = #{userId}
+	</select>
+	
+	<insert id="insertPost" parameterType="map">
+		INSERT INTO `post`
+		(
+			`userId`
+			, `imagePath`
+			, `content`
+			, `createdAt`
+			, `updatedAt`
+		)
+		VALUES
+		(
+			#{userId}
+			, #{imagePath}
+			, #{content}
+			, NOW()
+			, NOW()
+		)
+	</insert>
+	
+	<delete id="deletePostByPostIdAndUserId" parameterType="map">
+		DELETE
+		FROM
+			`post`
+		WHERE
+			`id` = #{postId}
+			AND `userId` = #{userId}
+	</delete>
+</mapper>
